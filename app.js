@@ -61,25 +61,39 @@ d3.selection.prototype.moveToFront = function() {
   			"<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
   			"</table>";
   	}
-
+    var west = ["HI", "AK", "WA", "MT", "ID", "WY", "CO", "NM", "AZ", "UT", "NV", "CA", "UT", "OR"]
+    var midwest = ["ND", "MN", "WI", "MI", "OH", "IN", "IL", "MO", "IA", "SD", "NE", "KS"]
+    var northeast = ["ME", "NH", "VT", "NY", "PA", "NJ", "CT", "MA", "RI"]
   	var sampleData ={};	/* Sample random data. */
   	["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
   	"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
   	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
   	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
   	"WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-  		.forEach(function(d){
-  			var low=Math.round(100*Math.random()),
-  				mid=Math.round(100*Math.random()),
-  				high=Math.round(100*Math.random());
-  			sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]),
-  					avg:Math.round((low+mid+high)/3), color:d3.interpolate("#ffffcc", "#800026")(low/100)};
-  		});
+  		.forEach(function(d, i){
+          var region=""
+          var num =""
+        if(west.includes(d)){
+          region = "west"
+          num = 25
+        }else if(midwest.includes(d)){
+          region = "midwest"
+          num = 50
+        }else if(northeast.includes(d)){
+          region = "northeast"
+          num = 75
+        }else{
+          region = "south"
+          num = 100
+        }
 
+  			sampleData[d]={region: region, color:d3.interpolate("#c4adce", "#5e2c70")(num/100)};
+  		});
+      console.log(sampleData)
   	/* draw states on id #statesvg */
   	uStates.draw("#statesvg", sampleData, tooltipHtml);
 
-  	d3.select(self.frameElement).style("height", "600px"); 
+  	d3.select(self.frameElement).style("height", "600px");
 
 
     /*
