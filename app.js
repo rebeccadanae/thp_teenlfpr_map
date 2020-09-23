@@ -57,49 +57,97 @@ d3.selection.prototype.moveToFront = function() {
     function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
   		return "<h4>"+n+"</h4><table>"+
   			"<tr><td>Region</td><td>"+(d.region)+"</td></tr>"+
-  			"<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
-  			"<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
+  			"<tr><td>Average</td><td>"+(d.num)+"</td></tr>"+
   			"</table>";
   	}
 
       function create_map(){
         d3.csv("map_summer.csv", function(data) {
-          console.log(data);
-        })
+          var group ="onlyschoolshare_all_all"
 
-        var west = ["HI", "AK", "WA", "MT", "ID", "WY", "CO", "NM", "AZ", "UT", "NV", "CA", "UT", "OR"]
-        var midwest = ["ND", "MN", "WI", "MI", "OH", "IN", "IL", "MO", "IA", "SD", "NE", "KS"]
-        var northeast = ["ME", "NH", "VT", "NY", "PA", "NJ", "CT", "MA", "RI"]
-        var sampleData ={};	/* Sample random data. */
-        ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
-        "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
-        "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
-        "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
-        "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-          .forEach(function(d, i){
-              var region=""
-              var num =""
-            if(west.includes(d)){
-              region = "west"
-              num = 25
-            }else if(midwest.includes(d)){
-              region = "midwest"
-              num = 50
-            }else if(northeast.includes(d)){
-              region = "northeast"
-              num = 75
-            }else{
-              region = "south"
-              num = 100
+          var key = data.columns.slice(1).filter(function(d){
+            return d == group
+          })
+
+          var northeast_val = data[0][group]*100
+          var midwest_val = data[1][group]*100
+          var south_val = data[2][group]*100
+          var west_val = data[3][group]*100
+          var all_vals = [northeast_val, midwest_val, south_val, west_val]
+          var val_positions = []
+          var val_colors = []
+          var min_val = d3.min(all_vals)
+          var max_val = d3.max(all_vals)
+          var range = max_val - min_val
+          var quarter = min_val + range/4
+          var midpoint = min_val + range/2
+          var three_quarter = max_val - range/4
+          var cuts = [min_val, quarter, midpoint, three_quarter, max_val]
+          var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
+          for(let i = 0; i <all_vals.length;i ++){
+
+            if(all_vals[i] < quarter){
+              val_positions[i] = "bottom fourth"
+              val_colors[i] = colors[0]
+            }else if (all_vals[i] < midpoint){
+              val_positions[i] ="second fourth"
+              val_colors[i] = colors[1]
+            }else if (all_vals[i] < three_quarter){
+              val_positions[i] ="third fourth"
+              val_colors[i] = colors[2]
+            }else {
+              val_positions[i] ="top fourth"
+              val_colors[i] = colors[3]
             }
 
-            sampleData[d]={region: region, color:d3.interpolate("#c4adce", "#5e2c70")(num/100)};
-          });
-          //console.log(sampleData)
-        /* draw states on id #statesvg */
-        uStates.draw("#statesvg", sampleData, tooltipHtml);
+          }
+          console.log(all_vals)
+          console.log(val_positions)
+          console.log(val_colors)
+          //console.log(cuts)
+          //console.log(data[0].idleshare_all_all)
 
-        d3.select(self.frameElement).style("height", "600px");
+          var west = ["HI", "AK", "WA", "MT", "ID", "WY", "CO", "NM", "AZ", "UT", "NV", "CA", "UT", "OR"]
+          var midwest = ["ND", "MN", "WI", "MI", "OH", "IN", "IL", "MO", "IA", "SD", "NE", "KS"]
+          var northeast = ["ME", "NH", "VT", "NY", "PA", "NJ", "CT", "MA", "RI"]
+          var sampleData ={};	/* Sample random data. */
+          ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+          "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
+          "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
+          "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
+          "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
+            .forEach(function(d, i){
+                var region=""
+                var num =""
+                var color = ""
+              if(west.includes(d)){
+                region = "west"
+                num = west_val
+                color = val_colors[3]
+              }else if(midwest.includes(d)){
+                region = "midwest"
+                num = midwest_val
+                color = val_colors[1]
+              }else if(northeast.includes(d)){
+                region = "northeast"
+                num = northeast_val
+                color = val_colors[0]
+              }else{
+                region = "south"
+                num = south_val
+                color = val_colors[2]
+              }
+
+              sampleData[d]={region: region, num: num, color:color};
+            });
+            //console.log(sampleData)
+          /* draw states on id #statesvg */
+          uStates.draw("#statesvg", sampleData, tooltipHtml);
+
+          d3.select(self.frameElement).style("height", "600px");
+        })
+
+
       }
     create_map()
 
