@@ -57,11 +57,12 @@ d3.selection.prototype.moveToFront = function() {
     function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
   		return "<h4>"+n+"</h4><table>"+
   			"<tr><td>Region</td><td>"+(d.region)+"</td></tr>"+
-  			"<tr><td>Average</td><td>"+(d.num)+"</td></tr>"+
+  			"<tr><td>Share</td><td>"+(d.num)+"</td></tr>"+
   			"</table>";
   	}
 
       function create_map(){
+        /*
         d3.csv("map_summer.csv", function(data) {
           var group ="onlyschoolshare_all_all"
 
@@ -111,6 +112,7 @@ d3.selection.prototype.moveToFront = function() {
           var midwest = ["ND", "MN", "WI", "MI", "OH", "IN", "IL", "MO", "IA", "SD", "NE", "KS"]
           var northeast = ["ME", "NH", "VT", "NY", "PA", "NJ", "CT", "MA", "RI"]
           var sampleData ={};	/* Sample random data. */
+          /*
           ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
           "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
           "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
@@ -142,10 +144,42 @@ d3.selection.prototype.moveToFront = function() {
             });
             //console.log(sampleData)
           /* draw states on id #statesvg */
-          uStates.draw("#statesvg", sampleData, tooltipHtml);
+          //uStates.draw("#statesvg", sampleData, tooltipHtml);
+          var region_data;
+          var state_data;
+          var state_map;
+          var svg = d3.select("#statesvg")
+          var projection     = d3.geoAlbersUsa()
+          var path            =   d3.geoPath( projection );
+          d3.json("states.json", function(d) {
+          state_data = d;
+
+
+          svg.selectAll('state_path')
+            .data(state_data.features)
+            .enter()
+            .append('path')
+            .attr( 'd', path)
+            .attr('stroke', "red")
+            .attr('stroke-width', 1)
+
+            d3.json("regions.json", function(d) {
+            region_data = d;
+            svg.selectAll('region_path')
+              .data(region_data.features)
+              .enter()
+              .append('path')
+              .attr( 'd', path)
+              .attr('stroke', "white")
+              .attr('stroke-width', 2)
+              .attr("opacity", 0.75)
+            });
+          });
+
+
 
           d3.select(self.frameElement).style("height", "600px");
-        })
+        //})
 
 
       }
