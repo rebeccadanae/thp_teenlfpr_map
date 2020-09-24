@@ -154,26 +154,59 @@ d3.selection.prototype.moveToFront = function() {
           d3.json("states.json", function(d) {
           state_data = d;
 
+          d3.json("regions.json", function(d) {
+          region_data = d;
+          var all_vals = []
+          for(let i = 0; i<d.features.length; i++){
+            all_vals[i] = region_data.features[i].properties.idleshare_all_all_summer
+          }
+          var min_val = d3.min(all_vals)
+          var max_val = d3.max(all_vals)
+          var range = max_val - min_val
+          var quarter = min_val + range/4
+          var midpoint = min_val + range/2
+          var three_quarter = max_val - range/4
+          var cuts = [min_val, quarter, midpoint, three_quarter, max_val]
+          var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
+
 
           svg.selectAll('state_path')
             .data(state_data.features)
             .enter()
             .append('path')
             .attr( 'd', path)
-            .attr('stroke', "red")
+            .attr('stroke', "white")
             .attr('stroke-width', 1)
+            .attr( 'fill', function(d){
+                var value = d.properties.idleshare_all_all_summer;
+                if(value < quarter){
+                  return colors[0]
+                }else if(value < midpoint){
+                  return colors[1]
+                }else if(value < three_quarter){
+                  return colors[2]
+                }else{
+                  return colors[3]
+                }
 
-            d3.json("regions.json", function(d) {
-            region_data = d;
-            svg.selectAll('region_path')
-              .data(region_data.features)
-              .enter()
-              .append('path')
-              .attr( 'd', path)
-              .attr('stroke', "white")
-              .attr('stroke-width', 2)
-              .attr("opacity", 0.75)
-            });
+                       })
+
+
+          svg.selectAll('region_path')
+            .data(region_data.features)
+            .enter()
+            .append('path')
+            .attr( 'd', path)
+            .attr('stroke', "white")
+            .attr('stroke-width', 3)
+            .attr("fill-opacity", 0)
+          });
+
+
+
+
+
+
           });
 
 
