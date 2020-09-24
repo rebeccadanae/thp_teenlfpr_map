@@ -218,17 +218,22 @@ d3.selection.prototype.moveToFront = function() {
             .attr( 'd', path)
             .attr('stroke', "white")
             .attr('stroke-width', 3)
+            .attr('fill', 'white')
             .attr("fill-opacity", 0)
             .on("mouseover",function(d,i){
-                d3.select(this).attr("fill","grey").attr("stroke-width",2);
-                return tooltip.style("hidden", false).html(d.properties.region2_summer);
+                d3.select(this).attr("fill-opacity","0.5");
+                return tooltip.style("hidden", false).html(d.properties.region2_summer+": "+(100*d.properties.idleshare_all_all_summer).toFixed(1)+"%");
             })
             .on("mousemove",function(d){
                 tooltip.classed("hidden", false)
                        .style("top", (d3.event.pageY) + "px")
                        .style("left", (d3.event.pageX + 10) + "px")
-                       .html(d.properties.region2_summer);
+                       .html(d.properties.region2_summer+": "+(100*d.properties.idleshare_all_all_summer).toFixed(1)+"%");
             })
+            .on("mouseout",function(d,i){
+                d3.select(this).attr("fill-opacity", 0);
+                tooltip.classed("hidden", true);
+            });
             //.on("mouseover", mouseover)
             //.on("mousemove", mousemove)
             //.on("mouseover", function(d){
