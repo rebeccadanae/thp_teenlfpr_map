@@ -52,8 +52,8 @@ d3.selection.prototype.moveToFront = function() {
       });
     };
 
-
-
+    var startup = true
+    var season = "Summer"
     var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
 
@@ -186,6 +186,7 @@ d3.selection.prototype.moveToFront = function() {
             .attr("x", "50%")
             .attr("y", 20)
             .classed("bold", true)
+            .attr("id", "legend_title")
       }
 
 
@@ -193,13 +194,12 @@ d3.selection.prototype.moveToFront = function() {
 
 
 
-    /*
+
     function changeIt(){
       startup = false;
       //get rid of everything
-      d3.selectAll("#layer, #legend_square, #legend_text, #graphLabel1, #graphLabel2").remove()
-      d3.selectAll("#yaxis").remove()
-      d3.selectAll("#xaxis").remove()
+      d3.selectAll("#layer, #legend_square, #legend_text, #legend_title, .legend, path").remove()
+
         var time_form = document.getElementById("time_frame")
         var time_form_val;
         for(var i=0; i<time_form.length; i++){
@@ -209,6 +209,8 @@ d3.selection.prototype.moveToFront = function() {
       var gender = document.getElementById("gender").value;
       var race = document.getElementById("race").value;
 
+console.log(time_form_val)
+      /*
         if(time_form_val == "summer"){
           season = "Summer"
           dataName = "sandchart_summer.csv"
@@ -222,8 +224,8 @@ d3.selection.prototype.moveToFront = function() {
         suffix1 = genders_short[gender]
         suffix2 = races_short[race]
         graphLabel2 = genders_long[gender]+", "+races_long[race]+", "+season
-
-          create_graph();
+*/
+          create_map();
                 }
 
     var dataTime = d3.select("#time_frame")
@@ -234,7 +236,7 @@ d3.selection.prototype.moveToFront = function() {
 
     var dataRace = d3.select("#race")
           dataRace.on("change", changeIt)
-    */
+
 
 
 
