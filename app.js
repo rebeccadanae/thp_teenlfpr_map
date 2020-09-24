@@ -60,6 +60,8 @@ d3.selection.prototype.moveToFront = function() {
   			"<tr><td>Share</td><td>"+(d.num)+"</td></tr>"+
   			"</table>";
   	}
+    var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
+    var legend_cats = ["0-10", "10-20", "20-30", "30+"]
 
       function create_map(){
         /*
@@ -167,8 +169,10 @@ d3.selection.prototype.moveToFront = function() {
           var midpoint = min_val + range/2
           var three_quarter = max_val - range/4
           var cuts = [min_val, quarter, midpoint, three_quarter, max_val]
-          var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
-
+          var clean_cuts = cuts*100
+          legend_cats = [(min_val*100).toFixed(1)+"-"+(100*quarter-0.1).toFixed(1), (100*quarter).toFixed(1)+"-"+(100*midpoint-0.1).toFixed(1), (100*midpoint).toFixed(1)+"-"+(100*three_quarter-0.1).toFixed(1), (100*three_quarter).toFixed(1)+"-"+(100*max_val).toFixed(1)]
+          console.log(100*quarter-0.1)
+          build_legend()
 
           svg.selectAll('state_path')
             .data(state_data.features)
@@ -216,6 +220,49 @@ d3.selection.prototype.moveToFront = function() {
 
 
       }
+      function build_legend(){
+
+        var circle_x = [125, 225, 325, 425]
+        var circle_y = [15, 15, 45, 45]
+        var legend_svg = d3
+          .select(".legend-container")
+          .append("svg")
+          .attr("width", 950)
+          .attr("height", 60)
+          .attr("x", "50%")
+          .classed("legend", true);
+
+          var size = 20
+          legend_svg.selectAll("myrect")
+            .data(legend_cats)
+            .enter()
+            .append("circle")
+              .attr("id", "legend_square")
+              .attr("cy", 15)
+              .attr("cx", function(d,i){
+                return circle_x[i]})
+              .attr("r", 8)
+              .attr("height", size)
+              .style("fill", function(d, i){ return colors[i]})
+              //.on("mouseover", highlight)
+              //.on("mouseleave", noHighlight)
+
+              legend_svg.selectAll("mylabels")
+                .data(legend_cats)
+                .enter()
+                .append("text")
+                  .attr("id", "legend_text")
+                  .attr("y", 15)
+                  .attr("x",  function(d,i){
+                    return circle_x[i] + 12}) // 100 is where the first dot appears. 25 is the distance between dots
+                  .text(function(d){ return d})
+                  .attr("text-anchor", "left")
+                  .style("alignment-baseline", "middle")
+                  //.on("mouseover", highlight)
+                  //.on("mouseleave", noHighlight)
+      }
+
+
     create_map()
 
 
