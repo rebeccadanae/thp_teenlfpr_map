@@ -53,121 +53,22 @@ d3.selection.prototype.moveToFront = function() {
     };
 
 
-/*
-    function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 
-      /*return "<h4>"+n+"</h4><table>"+
-  			"<tr><td>Region</td><td>"+(d.region)+"</td></tr>"+
-  			"<tr><td>Share</td><td>"+(d.num)+"</td></tr>"+
-  			"</table>";
-  	}
-    */
     var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
 
     var tooltip = d3.select("div.tooltip");
+    var region_data;
+    var state_data;
+    var state_map;
+    var svg = d3.select("#statesvg")
+    var projection     = d3.geoAlbersUsa()
+    var path            =   d3.geoPath( projection );
 
 
-    //var dataRow = countryById.get(d.properties.name);
-      // if (dataRow) {
-        //   console.log(dataRow);
-          // return dataRow.states + ": " + dataRow.mortality;
-       //} else {
-        //   console.log("no dataRow", d);
-          // return d.properties.name + ": No data.";
-      // }
-//  })
 
       function create_map(){
-        /*
-        d3.csv("map_summer.csv", function(data) {
-          var group ="onlyschoolshare_all_all"
 
-          var key = data.columns.slice(1).filter(function(d){
-            return d == group
-          })
-
-          var northeast_val = data[0][group]*100
-          var midwest_val = data[1][group]*100
-          var south_val = data[2][group]*100
-          var west_val = data[3][group]*100
-          var all_vals = [northeast_val, midwest_val, south_val, west_val]
-          var val_positions = []
-          var val_colors = []
-          var min_val = d3.min(all_vals)
-          var max_val = d3.max(all_vals)
-          var range = max_val - min_val
-          var quarter = min_val + range/4
-          var midpoint = min_val + range/2
-          var three_quarter = max_val - range/4
-          var cuts = [min_val, quarter, midpoint, three_quarter, max_val]
-          var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
-          for(let i = 0; i <all_vals.length;i ++){
-
-            if(all_vals[i] < quarter){
-              val_positions[i] = "bottom fourth"
-              val_colors[i] = colors[0]
-            }else if (all_vals[i] < midpoint){
-              val_positions[i] ="second fourth"
-              val_colors[i] = colors[1]
-            }else if (all_vals[i] < three_quarter){
-              val_positions[i] ="third fourth"
-              val_colors[i] = colors[2]
-            }else {
-              val_positions[i] ="top fourth"
-              val_colors[i] = colors[3]
-            }
-
-          }
-          console.log(all_vals)
-          console.log(val_positions)
-          console.log(val_colors)
-          //console.log(cuts)
-          //console.log(data[0].idleshare_all_all)
-
-          var west = ["HI", "AK", "WA", "MT", "ID", "WY", "CO", "NM", "AZ", "UT", "NV", "CA", "UT", "OR"]
-          var midwest = ["ND", "MN", "WI", "MI", "OH", "IN", "IL", "MO", "IA", "SD", "NE", "KS"]
-          var northeast = ["ME", "NH", "VT", "NY", "PA", "NJ", "CT", "MA", "RI"]
-          var sampleData ={};	/* Sample random data. */
-          /*
-          ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
-          "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH",
-          "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT",
-          "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN",
-          "WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-            .forEach(function(d, i){
-                var region=""
-                var num =""
-                var color = ""
-              if(west.includes(d)){
-                region = "west"
-                num = west_val
-                color = val_colors[3]
-              }else if(midwest.includes(d)){
-                region = "midwest"
-                num = midwest_val
-                color = val_colors[1]
-              }else if(northeast.includes(d)){
-                region = "northeast"
-                num = northeast_val
-                color = val_colors[0]
-              }else{
-                region = "south"
-                num = south_val
-                color = val_colors[2]
-              }
-
-              sampleData[d]={region: region, num: num, color:color};
-            });
-            //console.log(sampleData)
-          /* draw states on id #statesvg */
-          //uStates.draw("#statesvg", sampleData, tooltipHtml);
-          var region_data;
-          var state_data;
-          var state_map;
-          var svg = d3.select("#statesvg")
-          var projection     = d3.geoAlbersUsa()
-          var path            =   d3.geoPath( projection );
           d3.json("states.json", function(d) {
           state_data = d;
 
@@ -234,59 +135,13 @@ d3.selection.prototype.moveToFront = function() {
                 d3.select(this).attr("fill-opacity", 0);
                 tooltip.classed("hidden", true);
             });
-            //.on("mouseover", mouseover)
-            //.on("mousemove", mousemove)
-            //.on("mouseover", function(d){
-            //  hover(d);
-            //})
 
           });
 
-
-
-
-
-
           });
 
-
-
-          d3.select(self.frameElement).style("height", "600px");
-        //})
-
-
       }
 
-      /*
-      var Tooltip = d3.select("#map_container")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 1)
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "2px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
-
-      var mouseover = function(d) {
-     Tooltip.style("opacity", 1)
-   }
-   var mousemove = function(d) {
-     let pos = d3.select(this).node().getBoundingClientRect();
-     console.log(pos)
-     Tooltip
-       .html(d.properties.region2_summer)
-       .style('left', `${pos['x']}px`)
-        .style('top', `${(window.pageYOffset  + pos['y'] - 100)}px`);
-       //.style("left", (d3.mouse(this)[0]+10) + "px")
-      // .style("top", (d3.mouse(this)[1]) + "px")
-   }
-      function hover(data){
-        console.log(data.properties.region2_summer);
-        console.log(data.properties.idleshare_all_all_summer)
-      }
-
-      */
       function build_legend(){
 
         var circle_x = [25, 125, 225, 325]
@@ -310,8 +165,7 @@ d3.selection.prototype.moveToFront = function() {
               .attr("r", 8)
               .attr("height", size)
               .style("fill", function(d, i){ return colors[i]})
-              //.on("mouseover", highlight)
-              //.on("mouseleave", noHighlight)
+
 
               legend_svg.selectAll("mylabels")
                 .data(legend_cats)
@@ -320,12 +174,11 @@ d3.selection.prototype.moveToFront = function() {
                   .attr("id", "legend_text")
                   .attr("y", 45)
                   .attr("x",  function(d,i){
-                    return circle_x[i] + 12}) // 100 is where the first dot appears. 25 is the distance between dots
+                    return circle_x[i] + 12})
                   .text(function(d){ return d})
                   .attr("text-anchor", "left")
                   .style("alignment-baseline", "middle")
-                  //.on("mouseover", highlight)
-                  //.on("mouseleave", noHighlight)
+
             legend_svg
             .append("text")
             .text("Legend Title")
