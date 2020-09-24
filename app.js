@@ -65,8 +65,11 @@ d3.selection.prototype.moveToFront = function() {
     var svg = d3.select("#statesvg")
     var projection     = d3.geoAlbersUsa()
     var path            =   d3.geoPath( projection );
-
-
+    var genders_short = ["all", "fem", "male"];
+    var genders_long = ["All Genders", "Female", "Male"];
+    var races_short = ["all", "black", "hisp", "white"];
+    var races_long = ["All Races", "Black", "Hispanic", "White"];
+    var status_short = ["idle", "onlyschool","both", "onlywork"]
 
       function create_map(){
 
@@ -211,7 +214,8 @@ d3.selection.prototype.moveToFront = function() {
         }
       var gender = document.getElementById("gender").value;
       var race = document.getElementById("race").value;
-      selection = "idleshare_all_all" + "_"+time_form_val
+      var status = document.getElementById("status").value;
+      selection = status_short[status]+"share_"+genders_short[gender]+"_all" + "_"+time_form_val
 console.log(selection)
       /*
         if(time_form_val == "summer"){
@@ -239,6 +243,9 @@ console.log(selection)
 
     var dataRace = d3.select("#race")
           dataRace.on("change", changeIt)
+
+          var dataStatus = d3.select("#status")
+                dataStatus.on("change", changeIt)
 
 
 
