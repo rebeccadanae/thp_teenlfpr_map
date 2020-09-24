@@ -54,10 +54,11 @@ d3.selection.prototype.moveToFront = function() {
 
     var startup = true
     var selection = "idleshare_all_all_summer"
+    var long_selection = "All Genders, All Races, Summer"
     var season = "Summer"
     var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
-
+    var legend_title = "neither in the labor force nor enrolled in school"
     var tooltip = d3.select("div.tooltip");
     var region_data;
     var state_data;
@@ -70,7 +71,7 @@ d3.selection.prototype.moveToFront = function() {
     var races_short = ["all", "black", "hisp", "white"];
     var races_long = ["All Races", "Black", "Hispanic", "White"];
     var status_short = ["idle", "onlyschool","both", "onlywork"]
-
+    var status_long = ["neither in the labor force nor enrolled in school", "enrolled in school and not in the labor force","in the labor force and in school", "in the labor force and not enrolled in school"]
       function create_map(){
 
           d3.json("states.json", function(d) {
@@ -148,14 +149,25 @@ d3.selection.prototype.moveToFront = function() {
 
       function build_legend(){
 
-        var circle_x = [25, 125, 225, 325]
+        var circle_x = [45, 145, 245, 345]
         var legend_svg = d3
           .select(".legend-container")
           .append("svg")
-          .attr("width", 400)
-          .attr("height", 60)
+          .attr("width", 450)
+          .attr("height", 90)
           .attr("x", "50%")
-          .classed("legend", true);
+          .classed("legend", true)
+
+          var legend_rect =legend_svg
+          .append("rect")
+          //.attr("x", 10)
+          //.attr("y", 10)
+          .attr("width", 450)
+          .attr("height", 90)
+          .attr("stroke", "black")
+          .attr("stroke-width", 3)
+          .attr("fill-opacity", 0)
+
 
           var size = 20
           legend_svg.selectAll("myrect")
@@ -163,7 +175,7 @@ d3.selection.prototype.moveToFront = function() {
             .enter()
             .append("circle")
               .attr("id", "legend_square")
-              .attr("cy", 45)
+              .attr("cy", 65)
               .attr("cx", function(d,i){
                 return circle_x[i]})
               .attr("r", 8)
@@ -176,7 +188,7 @@ d3.selection.prototype.moveToFront = function() {
                 .enter()
                 .append("text")
                   .attr("id", "legend_text")
-                  .attr("y", 45)
+                  .attr("y", 65)
                   .attr("x",  function(d,i){
                     return circle_x[i] + 12})
                   .text(function(d){ return d})
@@ -185,10 +197,19 @@ d3.selection.prototype.moveToFront = function() {
 
             legend_svg
             .append("text")
-            .text("Legend Title")
+            .text("Percent "+legend_title)
             .attr("text-anchor", "middle")
             .attr("x", "50%")
             .attr("y", 20)
+            .classed("bold", true)
+            .attr("id", "legend_title")
+
+            legend_svg
+            .append("text")
+            .text("("+long_selection+")")
+            .attr("text-anchor", "middle")
+            .attr("x", "50%")
+            .attr("y", 40)
             .classed("bold", true)
             .attr("id", "legend_title")
       }
@@ -211,27 +232,17 @@ d3.selection.prototype.moveToFront = function() {
               time_form_val = time_form[i].id;}}
         if(time_form_val == "school_year"){
           time_form_val = "ay"
+          season = "School Year"
+        }else{
+          season = "Summer"
         }
       var gender = document.getElementById("gender").value;
       var race = document.getElementById("race").value;
       var status = document.getElementById("status").value;
       selection = status_short[status]+"share_"+genders_short[gender]+"_all" + "_"+time_form_val
-console.log(selection)
-      /*
-        if(time_form_val == "summer"){
-          season = "Summer"
-          dataName = "sandchart_summer.csv"
-          graphLabel1 = "All genders, all races, summer"
-          }else{
-            season = "School Year"
-          dataName = "sandchart_ay.csv"
-          graphLabel1 = "All genders, all races, school year"
-          };
+      legend_title = status_long[status]
+      long_selection = genders_long[gender]+", "+races_long[race]+", "+season
 
-        suffix1 = genders_short[gender]
-        suffix2 = races_short[race]
-        graphLabel2 = genders_long[gender]+", "+races_long[race]+", "+season
-*/
           create_map();
                 }
 

@@ -72,7 +72,7 @@
 .logo-container {
     width: 50%;
     max-width: 300px;
-    padding: 0 10px;
+    padding-top: 80px;
     margin-left: auto;
 }
 .legend-container{
@@ -101,6 +101,7 @@
     width: 55%;
     font-family: "PT Serif", serif;
     font-size: 13px;
+    padding: 40px 0;
 }
 .left-align{
   /*padding: 20px 20px;*/
