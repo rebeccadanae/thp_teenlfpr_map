@@ -53,15 +53,30 @@ d3.selection.prototype.moveToFront = function() {
     };
 
 
-
+/*
     function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
-  		return "<h4>"+n+"</h4><table>"+
+
+      /*return "<h4>"+n+"</h4><table>"+
   			"<tr><td>Region</td><td>"+(d.region)+"</td></tr>"+
   			"<tr><td>Share</td><td>"+(d.num)+"</td></tr>"+
   			"</table>";
   	}
+    */
     var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
+
+    var tooltip = d3.select("div.tooltip");
+
+
+    //var dataRow = countryById.get(d.properties.name);
+      // if (dataRow) {
+        //   console.log(dataRow);
+          // return dataRow.states + ": " + dataRow.mortality;
+       //} else {
+        //   console.log("no dataRow", d);
+          // return d.properties.name + ": No data.";
+      // }
+//  })
 
       function create_map(){
         /*
@@ -171,7 +186,7 @@ d3.selection.prototype.moveToFront = function() {
           var cuts = [min_val, quarter, midpoint, three_quarter, max_val]
           var clean_cuts = cuts*100
           legend_cats = [(min_val*100).toFixed(1)+"-"+(100*quarter-0.1).toFixed(1), (100*quarter).toFixed(1)+"-"+(100*midpoint-0.1).toFixed(1), (100*midpoint).toFixed(1)+"-"+(100*three_quarter-0.1).toFixed(1), (100*three_quarter).toFixed(1)+"-"+(100*max_val).toFixed(1)]
-          console.log(100*quarter-0.1)
+
           build_legend()
 
           svg.selectAll('state_path')
@@ -204,6 +219,22 @@ d3.selection.prototype.moveToFront = function() {
             .attr('stroke', "white")
             .attr('stroke-width', 3)
             .attr("fill-opacity", 0)
+            .on("mouseover",function(d,i){
+                d3.select(this).attr("fill","grey").attr("stroke-width",2);
+                return tooltip.style("hidden", false).html(d.properties.region2_summer);
+            })
+            .on("mousemove",function(d){
+                tooltip.classed("hidden", false)
+                       .style("top", (d3.event.pageY) + "px")
+                       .style("left", (d3.event.pageX + 10) + "px")
+                       .html(d.properties.region2_summer);
+            })
+            //.on("mouseover", mouseover)
+            //.on("mousemove", mousemove)
+            //.on("mouseover", function(d){
+            //  hover(d);
+            //})
+
           });
 
 
@@ -220,6 +251,37 @@ d3.selection.prototype.moveToFront = function() {
 
 
       }
+
+      /*
+      var Tooltip = d3.select("#map_container")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 1)
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px")
+
+      var mouseover = function(d) {
+     Tooltip.style("opacity", 1)
+   }
+   var mousemove = function(d) {
+     let pos = d3.select(this).node().getBoundingClientRect();
+     console.log(pos)
+     Tooltip
+       .html(d.properties.region2_summer)
+       .style('left', `${pos['x']}px`)
+        .style('top', `${(window.pageYOffset  + pos['y'] - 100)}px`);
+       //.style("left", (d3.mouse(this)[0]+10) + "px")
+      // .style("top", (d3.mouse(this)[1]) + "px")
+   }
+      function hover(data){
+        console.log(data.properties.region2_summer);
+        console.log(data.properties.idleshare_all_all_summer)
+      }
+
+      */
       function build_legend(){
 
         var circle_x = [25, 125, 225, 325]
