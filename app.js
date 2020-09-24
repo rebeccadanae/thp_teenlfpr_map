@@ -53,6 +53,7 @@ d3.selection.prototype.moveToFront = function() {
     };
 
     var startup = true
+    var selection = "idleshare_all_all_summer"
     var season = "Summer"
     var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
@@ -76,7 +77,7 @@ d3.selection.prototype.moveToFront = function() {
           region_data = d;
           var all_vals = []
           for(let i = 0; i<d.features.length; i++){
-            all_vals[i] = region_data.features[i].properties.idleshare_all_all_summer
+            all_vals[i] = region_data.features[i].properties[selection]
           }
           var min_val = d3.min(all_vals)
           var max_val = d3.max(all_vals)
@@ -98,7 +99,7 @@ d3.selection.prototype.moveToFront = function() {
             .attr('stroke', "white")
             .attr('stroke-width', 1)
             .attr( 'fill', function(d){
-                var value = d.properties.idleshare_all_all_summer;
+                var value = d.properties[selection];
                 if(value < quarter){
                   return colors[0]
                 }else if(value < midpoint){
@@ -123,13 +124,13 @@ d3.selection.prototype.moveToFront = function() {
             .attr("fill-opacity", 0)
             .on("mouseover",function(d,i){
                 d3.select(this).attr("fill-opacity","0.5");
-                return tooltip.style("hidden", false).html(d.properties.region2_summer+": "+(100*d.properties.idleshare_all_all_summer).toFixed(1)+"%");
+                return tooltip.style("hidden", false).html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
             })
             .on("mousemove",function(d){
                 tooltip.classed("hidden", false)
                        .style("top", (d3.event.pageY) + "px")
                        .style("left", (d3.event.pageX + 10) + "px")
-                       .html(d.properties.region2_summer+": "+(100*d.properties.idleshare_all_all_summer).toFixed(1)+"%");
+                       .html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
             })
             .on("mouseout",function(d,i){
                 d3.select(this).attr("fill-opacity", 0);
@@ -205,11 +206,13 @@ d3.selection.prototype.moveToFront = function() {
         for(var i=0; i<time_form.length; i++){
             if(time_form[i].checked){
               time_form_val = time_form[i].id;}}
-
+        if(time_form_val == "school_year"){
+          time_form_val = "ay"
+        }
       var gender = document.getElementById("gender").value;
       var race = document.getElementById("race").value;
-
-console.log(time_form_val)
+      selection = "idleshare_all_all" + "_"+time_form_val
+console.log(selection)
       /*
         if(time_form_val == "summer"){
           season = "Summer"
