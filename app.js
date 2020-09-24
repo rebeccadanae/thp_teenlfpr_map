@@ -222,12 +222,11 @@ d3.selection.prototype.moveToFront = function() {
       }
       function build_legend(){
 
-        var circle_x = [125, 225, 325, 425]
-        var circle_y = [15, 15, 45, 45]
+        var circle_x = [25, 125, 225, 325]
         var legend_svg = d3
           .select(".legend-container")
           .append("svg")
-          .attr("width", 950)
+          .attr("width", 400)
           .attr("height", 60)
           .attr("x", "50%")
           .classed("legend", true);
@@ -238,7 +237,7 @@ d3.selection.prototype.moveToFront = function() {
             .enter()
             .append("circle")
               .attr("id", "legend_square")
-              .attr("cy", 15)
+              .attr("cy", 45)
               .attr("cx", function(d,i){
                 return circle_x[i]})
               .attr("r", 8)
@@ -252,7 +251,7 @@ d3.selection.prototype.moveToFront = function() {
                 .enter()
                 .append("text")
                   .attr("id", "legend_text")
-                  .attr("y", 15)
+                  .attr("y", 45)
                   .attr("x",  function(d,i){
                     return circle_x[i] + 12}) // 100 is where the first dot appears. 25 is the distance between dots
                   .text(function(d){ return d})
@@ -260,6 +259,13 @@ d3.selection.prototype.moveToFront = function() {
                   .style("alignment-baseline", "middle")
                   //.on("mouseover", highlight)
                   //.on("mouseleave", noHighlight)
+            legend_svg
+            .append("text")
+            .text("Legend Title")
+            .attr("text-anchor", "middle")
+            .attr("x", "50%")
+            .attr("y", 20)
+            .classed("bold", true)
       }
 
 
