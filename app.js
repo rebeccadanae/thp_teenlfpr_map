@@ -248,7 +248,7 @@ var status_colors = [teal, blue, purple, green]
       var status = document.getElementById("status").value;
       colors = status_colors[status]
       console.log(colors)
-      selection = status_short[status]+"share_"+genders_short[gender]+"_all" + "_"+time_form_val
+      selection = status_short[status]+"share_"+genders_short[gender]+"_"+races_short[race]+ "_"+time_form_val
       legend_title = status_long[status]
       long_selection = genders_long[gender]+", "+races_long[race]+", "+season
 

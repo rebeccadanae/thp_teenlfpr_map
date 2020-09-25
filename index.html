@@ -92,13 +92,16 @@
 <div class='title-container center-align bold' id="title">
 	<h1>Teen Labor Force Participation and School Enrollment in 2020, by Region</h1>
 </div>
-<div >
+<div id="menus" height="100">
+	<div class = "dropdown">
+		<div id = "dropdown_content">
 	<form id="time_frame">
 	  <input  type='radio' id="summer" name="timeframe" checked>Summer</input>
 	  <input type='radio' id="school_year" name="timeframe">School Year</input>
 	</form>
-</div>
-<div class = "dropdown right-align">
+
+
+
 	<select id="status">
 		<option value="0">Neither labor force participant nor enrolled in school</option>
 		<option value ="1">Enrolled in school and not participating in labor force</option>
@@ -117,7 +120,8 @@
 		<option value ="3">White</option>
 	</select>
 </div>
-
+</div>
+</div>
 
 				<div id = "map_container">
 					<svg width="960" height="500" id="statesvg"></svg>
