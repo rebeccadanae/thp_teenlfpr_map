@@ -189,6 +189,10 @@
 .logo-container {
   display:none;
 }
+.source-container{
+  width: 85%;
+  text-align: center;
+}
 
 .info_box{
   display: block;
@@ -271,7 +275,8 @@
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
-  .interactive-container {
+  .interactive-container,
+  #map_container {
     width: 960px;
     margin: 0 auto;
   }
