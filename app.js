@@ -165,11 +165,12 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
       function build_legend(){
 
         var circle_x = [45, 145, 245, 345]
+        var circle_x_mob = [35, 110, 185, 260]
         var legend_svg = d3
           .select(".legend-container")
           .append("svg")
-          .attr("width", 450)
-          .attr("height", 90)
+          //.attr("width", 450)
+          //.attr("height", 90)
           .attr("x", "50%")
           .classed("legend", true)
 
@@ -182,6 +183,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
           .attr("stroke", "black")
           .attr("stroke-width", 3)
           .attr("fill-opacity", 0)
+          .classed("legend-rect", true)
 
 
           var size = 20
@@ -196,6 +198,20 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
               .attr("r", 8)
               .attr("height", size)
               .style("fill", function(d, i){ return colors[i]})
+              .attr("id", "full_legend")
+
+              legend_svg.selectAll("myrect")
+                .data(legend_cats)
+                .enter()
+                .append("circle")
+                  .attr("id", "legend_square")
+                  .attr("cy", 65)
+                  .attr("cx", function(d,i){
+                    return circle_x_mob[i]})
+                  .attr("r", 6)
+                  .attr("height", 10)
+                  .style("fill", function(d, i){ return colors[i]})
+                  .attr("id", "mob_legend")
 
 
               legend_svg.selectAll("mylabels")
@@ -209,6 +225,20 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                   .text(function(d){ return d})
                   .attr("text-anchor", "left")
                   .style("alignment-baseline", "middle")
+                  .attr("id", "full_legend")
+
+                  legend_svg.selectAll("mylabels")
+                    .data(legend_cats)
+                    .enter()
+                    .append("text")
+                      .attr("id", "legend_text")
+                      .attr("y", 65)
+                      .attr("x",  function(d,i){
+                        return circle_x_mob[i] + 10})
+                      .text(function(d){ return d})
+                      .attr("text-anchor", "left")
+                      .style("alignment-baseline", "middle")
+                      .attr("id", "mob_legend")
 
             legend_svg
             .append("text")
