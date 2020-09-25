@@ -64,8 +64,7 @@ d3.selection.prototype.moveToFront = function() {
     var state_data;
     var state_map;
     var svg = d3.select("#statesvg")
-    var projection     = d3.geoAlbersUsa()
-    var path            =   d3.geoPath( projection );
+
     var genders_short = ["all", "fem", "male"];
     var genders_long = ["All Genders", "Female", "Male"];
     var races_short = ["all", "black", "hisp", "white"];
@@ -77,7 +76,16 @@ var teal = ["#1affe0", "#00ccb1", "#007363", "#00332c"]
 var blue = ["#4de1ff", "#00add0", "#005566", "#002b33"]
 var green = ["#ace481", "#69be28", "#467e1b", "#172a09"]
 var status_colors = [teal, blue, purple, green]
+var margin = {top: 10, left: 10, bottom: 10, right: 10}
+  , width = parseInt(d3.select('#statesvg').style('width'))
+  , width = width - margin.left - margin.right
+  , mapRatio = .5
+  , height = width * mapRatio;
 
+  var projection     = d3.geoAlbersUsa()
+  .scale(width)
+  .translate([width / 2, height / 2]);
+  var path            =   d3.geoPath( projection );
 
 
       function create_map(){
