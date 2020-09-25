@@ -56,7 +56,7 @@ d3.selection.prototype.moveToFront = function() {
     var selection = "idleshare_all_all_summer"
     var long_selection = "All Genders, All Races, Summer"
     var season = "Summer"
-    var colors = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
+    var colors = ["#1affe0", "#00ccb1", "#007363", "#00332c"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
     var legend_title = "neither in the labor force nor enrolled in school"
     var tooltip = d3.select("div.tooltip");
@@ -72,8 +72,15 @@ d3.selection.prototype.moveToFront = function() {
     var races_long = ["All Races", "Black", "Hispanic", "White"];
     var status_short = ["idle", "onlyschool","both", "onlywork"]
     var status_long = ["neither in the labor force nor enrolled in school", "enrolled in school and not in the labor force","in the labor force and in school", "in the labor force and not enrolled in school"]
-      function create_map(){
+var purple = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
+var teal = ["#1affe0", "#00ccb1", "#007363", "#00332c"]
+var blue = ["#4de1ff", "#00add0", "#005566", "#002b33"]
+var green = ["#ace481", "#69be28", "#467e1b", "#172a09"]
+var status_colors = [teal, blue, purple, green]
 
+
+
+      function create_map(){
           d3.json("states.json", function(d) {
           state_data = d;
 
@@ -239,6 +246,8 @@ d3.selection.prototype.moveToFront = function() {
       var gender = document.getElementById("gender").value;
       var race = document.getElementById("race").value;
       var status = document.getElementById("status").value;
+      colors = status_colors[status]
+      console.log(colors)
       selection = status_short[status]+"share_"+genders_short[gender]+"_all" + "_"+time_form_val
       legend_title = status_long[status]
       long_selection = genders_long[gender]+", "+races_long[race]+", "+season
