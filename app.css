@@ -71,10 +71,9 @@
 }
 .logo-container {
     width: 50%;
-    max-width: 300px;
-    padding-top: 80px;
-    margin-left: auto;
+    position: relative;
 }
+
 .legend-container{
   width: 100%;
   margin: 0 auto;
@@ -84,7 +83,7 @@
   font-family: "franklin-gothic-urw", helvetica, sans serif;
   font-weight: 400;
   font-size: 14px;
-  height: 60px;
+  height: 110px;
 }
 
 .error-box{
@@ -148,7 +147,15 @@
 
 #source_content {
   position: absolute;
+  top: 0;
+}
+
+
+
+#logo_content {
+  position: absolute;
   bottom: 0;
+  right: 0
 }
 
 
