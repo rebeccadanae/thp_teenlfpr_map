@@ -17350,7 +17350,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
         var circle_x = [45, 145, 245, 345]
         var circle_x_mob = [35, 110, 185, 260]
         var legend_svg = d3
-          .select(".legend-container")
+          .select(".legend-container-map")
           .append("svg")
           //.attr("width", 450)
           //.attr("height", 90)
@@ -17453,7 +17453,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
       //get rid of everything
       d3.selectAll("#layer, #legend_square, #legend_text, #legend_title, .legend, path").remove()
 
-        var time_form = document.getElementById("time_frame")
+        var time_form = document.getElementById("time_frame_map")
         var time_form_val;
         for(var i=0; i<time_form.length; i++){
             if(time_form[i].checked){
@@ -17464,8 +17464,8 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
         }else{
           season = "Summer"
         }
-      var gender = document.getElementById("gender").value;
-      var race = document.getElementById("race").value;
+      var gender = document.getElementById("gender_map").value;
+      var race = document.getElementById("race_map").value;
       var status = document.getElementById("status").value;
       colors = status_colors[status]
       selection = status_short[status]+"share_"+genders_short[gender]+"_"+races_short[race]+ "_"+time_form_val
@@ -17475,9 +17475,9 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
           create_map();
                 }
 
-                var dataTime = d3.select("#time_frame")
+                var dataTime = d3.select("#time_frame_map")
                       dataTime.on("change", function(){
-                        var time_form = document.getElementById("time_frame")
+                        var time_form = document.getElementById("time_frame_map")
                         var time_form_val;
                         for(var i=0; i<time_form.length; i++){
                             if(time_form[i].checked){
@@ -17489,16 +17489,16 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                               analytics('radio_button', analytics_label)
                         changeIt(); })
 
-                        var dataGender = d3.select("#gender")
+                        var dataGender = d3.select("#gender_map")
                               dataGender.on("change", function(){
-                                var gender = document.getElementById("gender").value;
+                                var gender = document.getElementById("gender_map").value;
                                 var gender_labels = ["all_genders",  "female", "male"]
                                 analytics('dropdown_menu', gender_labels[gender]);
                                 changeIt();})
 
-                                var dataRace = d3.select("#race")
+                                var dataRace = d3.select("#race_map")
                                       dataRace.on("change", function(){
-                                        var race = document.getElementById("race").value;
+                                        var race = document.getElementById("race_map").value;
                                         var race_labels = ["all_races", "black", "hispanic", "white"]
                                         analytics('dropdown_menu', race_labels[race]);
                                         changeIt();

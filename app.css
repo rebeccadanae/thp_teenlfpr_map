@@ -31,8 +31,8 @@
         opacity: 0.9;
         position: absolute;
       }
-#gender,
-#race,
+#gender_map,
+#race_map,
 #status{
   font-family: "franklin-gothic-urw", helvetica, sans serif;
   font-weight: 400;
@@ -42,7 +42,7 @@
    padding: 0 10px;
 }
 
-#time_frame{
+#time_frame_map{
   font-family: "franklin-gothic-urw", helvetica, sans serif;
   font-weight: 400;
   font-size: 13px;
@@ -74,7 +74,7 @@
     position: relative;
 }
 
-.legend-container{
+.legend-container-map{
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -86,7 +86,7 @@
   height: 110px;
 }
 
-#time_frame{
+#time_frame_map{
   padding-right: 10px;
 }
 
@@ -201,7 +201,7 @@
 }
 #time_frame_div,
 .dropdown,
-.legend-container{
+.legend-container-map{
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -223,7 +223,7 @@
 }
 
 
-#time_frame{
+#time_frame_map{
   padding-bottom: 15px;
   width: 100%;
 }
@@ -265,7 +265,7 @@
 
 
 
-  #time_frame{
+  #time_frame_map{
     padding-bottom: 15px;
     width: 100%;
   }
