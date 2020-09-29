@@ -17240,7 +17240,11 @@ d3.selection.prototype.moveToFront = function() {
     var colors = ["#ace481", "#69be28", "#467e1b", "#172a09"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
     var legend_title = "in the labor force and not enrolled in school"
-    var tooltip = d3.select("div.tooltip");
+		var tooltip = d3.select("body").append("div")
+		.attr("class", "tooltip")
+    .style("opacity", 0);
+
+
     var region_data;
     var state_data;
     var state_map;
@@ -17324,7 +17328,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .attr("fill-opacity", 0)
             .on("mouseover",function(d,i){
                 d3.select(this).attr("fill-opacity","0.5");
-                return tooltip.style("hidden", false).html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
+                return tooltip.style("opacity", 1).html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
             })
             .on("mousemove",function(d){
                 tooltip.classed("hidden", false)
