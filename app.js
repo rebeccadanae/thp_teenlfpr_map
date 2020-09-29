@@ -17270,10 +17270,10 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
 
 
       function create_map(){
-          d3.json("states.json", function(d) {
+          d3.json("assets/states.json", function(d) {
           state_data = d;
 
-          d3.json("regions.json", function(d) {
+          d3.json("assets/regions.json", function(d) {
           region_data = d;
           var all_vals = []
           for(let i = 0; i<d.features.length; i++){
