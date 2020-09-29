@@ -53,12 +53,12 @@ d3.selection.prototype.moveToFront = function() {
     };
 
     var startup = true
-    var selection = "idleshare_all_all_summer"
+    var selection = "onlyworkshare_all_all_summer"
     var long_selection = "All Genders, All Races, Summer"
     var season = "Summer"
-    var colors = ["#1affe0", "#00ccb1", "#007363", "#00332c"]
+    var colors = ["#ace481", "#69be28", "#467e1b", "#172a09"]
     var legend_cats = ["0-10", "10-20", "20-30", "30+"]
-    var legend_title = "neither in the labor force nor enrolled in school"
+    var legend_title = "in the labor force and not enrolled in school"
     var tooltip = d3.select("div.tooltip");
     var region_data;
     var state_data;
@@ -69,13 +69,13 @@ d3.selection.prototype.moveToFront = function() {
     var genders_long = ["All Genders", "Female", "Male"];
     var races_short = ["all", "black", "hisp", "white"];
     var races_long = ["All Races", "Black", "Hispanic", "White"];
-    var status_short = ["idle", "onlyschool","both", "onlywork"]
-    var status_long = ["neither in the labor force nor enrolled in school", "enrolled in school and not in the labor force","in the labor force and in school", "in the labor force and not enrolled in school"]
+    var status_short = ["onlywork",  "both", "onlyschool", "idle"]
+    var status_long = [ "in the labor force and not enrolled in school", "in the labor force and in school",  "enrolled in school and not in the labor force","neither in the labor force nor enrolled in school",]
 var purple = ["#c4adce", "#9c78ac", "#7e548e", "#5e2c70"]
 var teal = ["#1affe0", "#00ccb1", "#007363", "#00332c"]
 var blue = ["#4de1ff", "#00add0", "#005566", "#002b33"]
 var green = ["#ace481", "#69be28", "#467e1b", "#172a09"]
-var status_colors = [teal, blue, purple, green]
+var status_colors = [ green,  purple, blue, teal]
 var margin = {top: 10, left: 10, bottom: 10, right: 10}
   , width = parseInt(d3.select('#statesvg').style('width'))
   , width = width - margin.left - margin.right
@@ -150,6 +150,8 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                        .style("top", (d3.event.pageY) + "px")
                        .style("left", (d3.event.pageX + 10) + "px")
                        .html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
+
+                    analytics('hover', (d.properties.region2_summer).toLowerCase())   
             })
             .on("mouseout",function(d,i){
                 d3.select(this).attr("fill-opacity", 0);
@@ -293,17 +295,42 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
           create_map();
                 }
 
-    var dataTime = d3.select("#time_frame")
-          dataTime.on("change", changeIt)
+                var dataTime = d3.select("#time_frame")
+                      dataTime.on("change", function(){
+                        var time_form = document.getElementById("time_frame")
+                        var time_form_val;
+                        for(var i=0; i<time_form.length; i++){
+                            if(time_form[i].checked){
+                              time_form_val = time_form[i].id;}}
+                              var analytics_label = "summer"
+                              if(time_form_val == school_year){
+                                analytics_label == "school year"
+                              }
+                              analytics('radio_button', analytics_label)
+                        changeIt(); })
 
-    var dataGender = d3.select("#gender")
-          dataGender.on("change", changeIt)
+                        var dataGender = d3.select("#gender")
+                              dataGender.on("change", function(){
+                                var gender = document.getElementById("gender").value;
+                                var gender_labels = ["all_genders",  "female", "male"]
+                                analytics('dropdown_menu', gender_labels[gender]);
+                                changeIt();})
 
-    var dataRace = d3.select("#race")
-          dataRace.on("change", changeIt)
+                                var dataRace = d3.select("#race")
+                                      dataRace.on("change", function(){
+                                        var race = document.getElementById("race").value;
+                                        var race_labels = ["all_races", "black", "hispanic", "white"]
+                                        analytics('dropdown_menu', race_labels[race]);
+                                        changeIt();
+                                      })
 
           var dataStatus = d3.select("#status")
-                dataStatus.on("change", changeIt)
+                dataStatus.on("change", function(){
+                  var status = document.getElementById("status").value;
+                  var status_labels = ["labor_force_not_school",  "labor_force_and_school", "either_labor_force", "neither_labor_force"]
+                  analytics('dropdown_menu', status_labels[status]);
+                  changeIt()
+                })
 
 
 
