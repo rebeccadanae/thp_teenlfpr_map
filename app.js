@@ -17302,6 +17302,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .attr( 'd', path)
             .attr('stroke', "white")
             .attr('stroke-width', 1)
+						.attr("id", "state_path")
             .attr( 'fill', function(d){
                 var value = d.properties[selection];
                 if(value < quarter){
@@ -17326,6 +17327,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .attr('stroke-width', 3)
             .attr('fill', 'white')
             .attr("fill-opacity", 0)
+						.attr("id", "region_path")
             .on("mouseover",function(d,i){
                 d3.select(this).attr("fill-opacity","0.5");
                 return tooltip.style("opacity", 1).html(d.properties.region2_summer+": "+(100*d.properties[selection]).toFixed(1)+"%");
@@ -17359,7 +17361,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
           //.attr("width", 450)
           //.attr("height", 90)
           .attr("x", "50%")
-          .classed("legend", true)
+          .classed("legend_map", true)
 
           var legend_rect =legend_svg
           .append("rect")
@@ -17378,7 +17380,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .data(legend_cats)
             .enter()
             .append("circle")
-              .attr("id", "legend_square")
+              .attr("id", "legend_circle_map")
               .attr("cy", 65)
               .attr("cx", function(d,i){
                 return circle_x[i]})
@@ -17391,7 +17393,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                 .data(legend_cats)
                 .enter()
                 .append("circle")
-                  .attr("id", "legend_square")
+                  .attr("id", "legend_circle_map")
                   .attr("cy", 65)
                   .attr("cx", function(d,i){
                     return circle_x_mob[i]})
@@ -17405,7 +17407,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                 .data(legend_cats)
                 .enter()
                 .append("text")
-                  .attr("id", "legend_text")
+                  .attr("id", "legend_text_map")
                   .attr("y", 65)
                   .attr("x",  function(d,i){
                     return circle_x[i] + 12})
@@ -17418,7 +17420,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
                     .data(legend_cats)
                     .enter()
                     .append("text")
-                      .attr("id", "legend_text")
+                      .attr("id", "legend_text_map")
                       .attr("y", 65)
                       .attr("x",  function(d,i){
                         return circle_x_mob[i] + 10})
@@ -17434,7 +17436,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .attr("x", "50%")
             .attr("y", 20)
             .classed("bold", true)
-            .attr("id", "legend_title")
+            .attr("id", "legend_title_map")
 
             legend_svg
             .append("text")
@@ -17443,7 +17445,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
             .attr("x", "50%")
             .attr("y", 40)
             .classed("bold", true)
-            .attr("id", "legend_title")
+            .attr("id", "legend_title_map")
       }
 
 
@@ -17455,7 +17457,7 @@ var margin = {top: 10, left: 10, bottom: 10, right: 10}
     function changeIt(){
       startup = false;
       //get rid of everything
-      d3.selectAll("#layer, #legend_square, #legend_text, #legend_title, .legend, path").remove()
+      d3.selectAll("#legend_circle_map, #legend_text_map, #legend_title_map, .legend_map, #region_path, #state_path").remove()
 
         var time_form = document.getElementById("time_frame_map")
         var time_form_val;
